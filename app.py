@@ -36,7 +36,6 @@ st.write(
 )
 
 st.success("All models loaded successfully!")
-
 st.divider()
 st.header("Upload Test Dataset")
 
@@ -69,10 +68,8 @@ if uploaded_file is not None:
             y_test = pd.to_numeric(y_test, errors = "coerce")
 
         if y_test.isna().any() or not y_test.isin([0, 1]).all():
-            st.error(
-                "Invalid diagnosis values. Use 0 (Benign)"
-                "or 1 (Malignant), or B/M labels."
-            )
+            st.error( "Invalid diagnosis values. Use 0 (Benign)"
+                "or 1 (Malignant), or B/M labels." )
 
         else:
             missing_features = [ col for col in feature_names if col not in test_df.columns ]
@@ -105,11 +102,9 @@ if uploaded_file is not None:
                     else:
                         predictions[model_name] = model.predict(X_test)
 
-                # Create a comparison table
                 model_results = {}
                 for model_name, model in models.items():
                     model_predictions = predictions[model_name]
-                    # Select appropriate input features
                     if model_name in [ "Logistic Regression", "KNN", "SVM" ]:
                         model_input = X_test_scaled
                     else:
@@ -134,21 +129,17 @@ if uploaded_file is not None:
 
                 formatted_results.loc[metric_rows] = ( formatted_results.loc[metric_rows].round(4) )
 
+                st.divider()
                 st.subheader("Overall Model Performance Comparison")
                 st.dataframe( formatted_results, use_container_width = True )
                 st.divider()
 
                 st.header("Detailed Model Evaluation")
-
-                # Model selection dropdown
                 selected_model_name = st.selectbox( "Select a classification model", list(models.keys()) )
-
-                # Get predictions for the selected model
                 selected_predictions = predictions[selected_model_name]
 
                 st.subheader(f"{selected_model_name} - Confusion Matrix")
 
-                # Generate confusion matrix
                 cm = confusion_matrix( y_test, selected_predictions, labels=[0, 1] )
                 cm_df = pd.DataFrame( cm, index = ["Actual Benign", "Actual Malignant"], columns = ["Predicted Benign", "Predicted Malignant"] )
                 st.dataframe(cm_df, use_container_width = True)
