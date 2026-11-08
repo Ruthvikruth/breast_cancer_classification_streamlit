@@ -49,7 +49,6 @@ if uploaded_file is not None:
     st.success("Dataset uploaded successfully!")
     st.subheader("Dataset Preview:")
     st.dataframe(test_df.head())
-    st.write("Dataset Dimensions:", test_df.shape)
 
     if "diagnosis" not in test_df.columns:
         st.error("The uploaded CSV must contain a 'diagnosis' column.")
@@ -90,8 +89,6 @@ if uploaded_file is not None:
                 else:
                     st.write("Number of test records:", len(X_test))
                     st.write("Number of features:", X_test.shape[1])
-
-                st.write("Number of features:", X_test.shape[1] )
 
                 X_test_scaled = scaler.transform( X_test )
                 predictions = {}
