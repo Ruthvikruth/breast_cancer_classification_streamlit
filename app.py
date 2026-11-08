@@ -91,7 +91,6 @@ if uploaded_file is not None:
                     )
 
                 else:
-                    st.success("Test data is ready for evaluation!")
                     st.write("Number of test records:", len(X_test))
                     st.write("Number of features:", X_test.shape[1])
 
@@ -135,7 +134,6 @@ if uploaded_file is not None:
 
                 formatted_results.loc[metric_rows] = ( formatted_results.loc[metric_rows].round(4) )
 
-                st.success("Model evaluation completed successfully!")
                 st.subheader("Overall Model Performance Comparison")
                 st.dataframe( formatted_results, use_container_width = True )
                 st.divider()
